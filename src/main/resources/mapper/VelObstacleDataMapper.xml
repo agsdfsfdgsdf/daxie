@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.VelObstacleDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.VelObstacleData">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="deviceNum" column="device_num" jdbcType="VARCHAR"/>
+        <result property="obstacle1Status" column="obstacle1_status" jdbcType="VARCHAR"/>
+        <result property="obstacle1Size" column="obstacle1_size" jdbcType="VARCHAR"/>
+        <result property="obstacle1DistanceX" column="obstacle1_distance_x" jdbcType="DOUBLE"/>
+        <result property="obstacle1DistanceY" column="obstacle1_distance_y" jdbcType="DOUBLE"/>
+        <result property="obstacle1SpeedX" column="obstacle1_speed_x" jdbcType="DOUBLE"/>
+        <result property="obstacle1SpeedY" column="obstacle1_speed_y" jdbcType="DOUBLE"/>
+        <result property="obstacle1Collision" column="obstacle1_collision" jdbcType="DOUBLE"/>
+        <result property="obstacle1Safelevel" column="obstacle1_safelevel" jdbcType="DOUBLE"/>
+        <result property="obstacle2Status" column="obstacle2_status" jdbcType="VARCHAR"/>
+        <result property="obstacle2Size" column="obstacle2_size" jdbcType="VARCHAR"/>
+        <result property="obstacle2DistanceX" column="obstacle2_distance_x" jdbcType="DOUBLE"/>
+        <result property="obstacle2DistanceY" column="obstacle2_distance_y" jdbcType="DOUBLE"/>
+        <result property="obstacle2SpeedX" column="obstacle2_speed_x" jdbcType="DOUBLE"/>
+        <result property="obstacle2SpeedY" column="obstacle2_speed_y" jdbcType="DOUBLE"/>
+        <result property="obstacle2Collision" column="obstacle2_collision" jdbcType="DOUBLE"/>
+        <result property="obstacle2Safelevel" column="obstacle2_safelevel" jdbcType="DOUBLE"/>
+        <result property="obstacle3Status" column="obstacle3_status" jdbcType="VARCHAR"/>
+        <result property="obstacle3Size" column="obstacle3_size" jdbcType="VARCHAR"/>
+        <result property="obstacle3DistanceX" column="obstacle3_distance_x" jdbcType="DOUBLE"/>
+        <result property="obstacle3DistanceY" column="obstacle3_distance_y" jdbcType="DOUBLE"/>
+        <result property="obstacle3SpeedX" column="obstacle3_speed_x" jdbcType="DOUBLE"/>
+        <result property="obstacle3SpeedY" column="obstacle3_speed_y" jdbcType="DOUBLE"/>
+        <result property="obstacle3Collision" column="obstacle3_collision" jdbcType="DOUBLE"/>
+        <result property="obstacle3Safelevel" column="obstacle3_safelevel" jdbcType="DOUBLE"/>
+        <result property="artIntervention" column="art_intervention" jdbcType="BIT"/>
+        <result property="lineBreak" column="line_break" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.VelObstacleData">
+        INSERT INTO vel_obstacle_data (`id`, `device_num`,
+                                       `obstacle1_status`, `obstacle1_size`, `obstacle1_distance_x`,
+                                       `obstacle1_distance_y`, `obstacle1_speed_x`, `obstacle1_speed_y`,
+                                       `obstacle1_collision`, `obstacle1_safelevel`,
+                                       `obstacle2_status`, `obstacle2_size`, `obstacle2_distance_x`,
+                                       `obstacle2_distance_y`, `obstacle2_speed_x`, `obstacle2_speed_y`,
+                                       `obstacle2_collision`, `obstacle2_safelevel`,
+                                       `obstacle3_status`, `obstacle3_size`, `obstacle3_distance_x`,
+                                       `obstacle3_distance_y`, `obstacle3_speed_x`, `obstacle3_speed_y`,
+                                       `obstacle3_collision`, `obstacle3_safelevel`,
+                                       `art_intervention`, `line_break`)
+        VALUES (null, #{deviceNum},
+                #{obstacle1Status}, #{obstacle1Size}, #{obstacle1DistanceX}, #{obstacle1DistanceY}, #{obstacle1SpeedX},
+                #{obstacle1SpeedY}, #{obstacle1Collision}, #{obstacle1Safelevel},
+                #{obstacle2Status}, #{obstacle2Size}, #{obstacle2DistanceX}, #{obstacle2DistanceY}, #{obstacle2SpeedX},
+                #{obstacle2SpeedY}, #{obstacle2Collision}, #{obstacle2Safelevel},
+                #{obstacle3Status}, #{obstacle3Size}, #{obstacle3DistanceX}, #{obstacle3DistanceY}, #{obstacle3SpeedX},
+                #{obstacle3SpeedY}, #{obstacle3Collision}, #{obstacle3Safelevel},
+                #{artIntervention}, #{lineBreak})
+    </insert>
+
+</mapper>

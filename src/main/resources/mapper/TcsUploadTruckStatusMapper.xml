@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.TcsUploadTruckStatusMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.TcsUploadTruckStatus">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="truckNo" column="truck_no" jdbcType="VARCHAR"/>
+            <result property="token" column="token" jdbcType="VARCHAR"/>
+            <result property="paramTruckno" column="param_truckNo" jdbcType="VARCHAR"/>
+            <result property="paramSpeed" column="param_speed" jdbcType="VARCHAR"/>
+            <result property="paramLng" column="param_lng" jdbcType="VARCHAR"/>
+            <result property="paramLat" column="param_lat" jdbcType="VARCHAR"/>
+            <result property="paramTime" column="param_time" jdbcType="VARCHAR"/>
+            <result property="resCode" column="res_code" jdbcType="VARCHAR"/>
+            <result property="resMessage" column="res_message" jdbcType="VARCHAR"/>
+            <result property="resData" column="res_data" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,time,truck_no,
+        token,param_truckNo,param_speed,
+        param_lng,param_lat,param_time,
+        res_code,res_message,res_data
+    </sql>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.TcsUploadTruckStatus">
+        INSERT INTO tcs_upload_truck_status (`id`, `time`, `truck_no`,`token`,
+                                       `param_truckNo`, `param_speed`, `param_lng`,
+                                       `param_lat`, `param_time`,`res_code`,
+                                       `res_message`, `res_data`)
+        VALUES (null,
+                #{time},
+                #{truckNo},
+                #{token},
+                #{paramTruckno},
+                #{paramSpeed},
+                #{paramLng},
+                #{paramLat},
+                #{paramTime},
+                #{resCode},
+                #{resMessage},
+                #{resData})
+    </insert>
+</mapper>

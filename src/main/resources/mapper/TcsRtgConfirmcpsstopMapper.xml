@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.TcsRtgConfirmcpsstopMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.TcsRtgConfirmcpsstop">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="truckNo" column="truck_no" jdbcType="VARCHAR"/>
+            <result property="token" column="token" jdbcType="VARCHAR"/>
+            <result property="paramRtg" column="param_rtg" jdbcType="VARCHAR"/>
+            <result property="paramStatus" column="param_status" jdbcType="VARCHAR"/>
+            <result property="paramPosition" column="param_position" jdbcType="VARCHAR"/>
+            <result property="paramOrderid" column="param_orderId" jdbcType="VARCHAR"/>
+            <result property="paramTruck" column="param_truck" jdbcType="VARCHAR"/>
+            <result property="paramTime" column="param_time" jdbcType="VARCHAR"/>
+            <result property="resCode" column="res_code" jdbcType="VARCHAR"/>
+            <result property="resMessage" column="res_message" jdbcType="VARCHAR"/>
+            <result property="resData" column="res_data" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,time,truck_no,
+        token,param_rtg,param_status,
+        param_position,param_orderId,param_truck,
+        param_time,res_code,res_message,
+        res_data
+    </sql>
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.TcsRtgConfirmcpsstop">
+        INSERT INTO tcs_RTG_confirmCpsStop (`id`, `time`, `truck_no`,`token`,
+                                      `param_rtg`, `param_status`,
+                                      `param_position`, `param_orderId`,
+                                      `param_truck`, `param_time`, `res_code`,
+                                      `res_message`, `res_data`)
+        VALUES (null,
+                #{time},
+                #{truckNo},
+                #{token},
+                #{paramRtg},
+                #{paramStatus},
+                #{paramPosition},
+                #{paramOrderid},
+                #{paramTruck},
+                #{paramTime},
+                #{resCode},
+                #{resMessage},
+                #{resData})
+    </insert>
+</mapper>

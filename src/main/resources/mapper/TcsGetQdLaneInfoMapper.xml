@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.TcsGetQdLaneInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.TcsGetQdLaneInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="truckNo" column="truck_no" jdbcType="VARCHAR"/>
+            <result property="token" column="token" jdbcType="VARCHAR"/>
+            <result property="resCode" column="res_code" jdbcType="VARCHAR"/>
+            <result property="resMessage" column="res_message" jdbcType="VARCHAR"/>
+            <result property="resData" column="res_data" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,time,truck_no,
+        token,res_code,res_message,
+        res_data
+    </sql>
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.TcsGetQdLaneInfo">
+        INSERT INTO tcs_get_qd_lane_info (`id`, `time`, `truck_no`,`token`,
+                                       `res_code`,
+                                      `res_message`, `res_data`)
+        VALUES (null,
+                #{time},
+                #{truckNo},
+                #{token},
+                #{resCode},
+                #{resMessage},
+                #{resData})
+    </insert>
+</mapper>

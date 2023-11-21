@@ -1,0 +1,30 @@
+server:
+  port: 4098
+  context-path: /
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain,text/css,application/x-javascript
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: mysql
+    password: Dechuang@123!
+    url: jdbc:mysql://127.0.0.1:3306/daxie?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    transaction:
+      rollback-on-commit-failure: true
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: Dechuang@123!
+
+mybatis:
+  type-aliases-package: org.web.emall.models
+  mapper-locations: classpath:mapper/*.xml
+
+retrofit:
+  # 日志打印拦截器
+  logging-interceptor: com.github.lianjiatech.retrofit.spring.boot.interceptor.DefaultLoggingInterceptor

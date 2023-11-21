@@ -1,0 +1,32 @@
+[2023-08-28 16:46:51.440][ERR] CCoreGlobalCtrlBase::LoadDSo, HPR_LoadDSo Failed, Path[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/zlib1.dll] syserror[126]
+[2023-08-28 16:46:51.440][ERR] Load zlib failed[syserr: 126]
+[2023-08-28 16:46:51.440][INF] The COM:HCCoreBase ver is 6.1.4.15, 2020_03_05. Async:1.
+[2023-08-28 16:46:51.440][INF] The COM:Core ver is 6.1.9.48, 2023_04_10. Async:1.
+[2023-08-28 16:46:51.440][INF] This HCNetSDK ver is 6.1.9.48 Ver 2023_04_10.
+[2023-08-28 16:46:51.575][INF] Login dev 10.5.68.76:8000.
+[2023-08-28 16:46:51.575][INF] dwTotalNum[2048]
+[2023-08-28 16:46:51.771][INF] Private connect 10.5.68.76:8000 sock=3732 this=0x27b239a4 cmd=0x10000 port=53938
+[2023-08-28 16:46:51.771][INF] LogonDev1 in[10.5.68.76:8000]
+[2023-08-28 16:46:51.776][DBG] CCoreGlobalCtrlBase::LoadDSo, HPR_LoadDSo Succ, Path[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/libcrypto-1_1-x64.dll], hHandleRet[-791019520]
+[2023-08-28 16:46:51.776][DBG] Load [libcrypto-1_1-x64.dll] SUCC, Real Path[C:\Users\m1771\IdeaProjects\test\src\sdk\库文件\libcrypto-1_1-x64.dll]
+[2023-08-28 16:46:51.780][DBG] CCoreGlobalCtrlBase::LoadDSo, HPR_LoadDSo Succ, Path[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/libssl-1_1-x64.dll], hHandleRet[-791937024]
+[2023-08-28 16:46:51.780][DBG] Load [libssl-1_1-x64.dll] SUCC, Real Path[C:\Users\m1771\IdeaProjects\test\src\sdk\库文件\libssl-1_1-x64.dll]
+[2023-08-28 16:46:51.780][INF] SSLTRANSAPI::IsAllAPILoaded, SSL_library_init Unload
+[2023-08-28 16:46:51.780][INF] OpenSSL, Not All Function Loaded!
+[2023-08-28 16:46:51.780][INF] SSLTRANSAPI::PrintVersion, OpenSSL version info [OpenSSL 1.1.1l  24 Aug 2021]
+[2023-08-28 16:46:51.780][INF] CSSLTrans::SSLCtxInit, dwSSLVersion[6], m_fnTLSServerMethod
+[2023-08-28 16:46:51.784][ERR] CSSLTrans::SSLTrans_CTX_Load_CA, invalid path[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/cert/\]
+[2023-08-28 16:46:52.596][DBG] CComBase::Load, Load szDllPath[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/HCNetSDKCom/HCPreview.dll] SUCC
+[2023-08-28 16:46:52.596][INF] AbilityAnalyze---Init-- start
+[2023-08-28 16:46:52.606][INF] The COM:Preview ver is 6.1.9.48, 2023_04_10.
+[2023-08-28 16:46:52.607][INF] CCoreGlobalCtrl::LoadDSo, enumDllType[0], cTempPath[C:/Users/m1771/IdeaProjects/test/src/sdk/库文件/]
+[2023-08-28 16:46:52.607][DBG] CCoreGlobalCtrl::LoadDSo, HPR_LoadDSo, hHandleRet[683343872], enumDllType[0], Path[PlayCtrl.dll], syserror[127]
+[2023-08-28 16:46:53.808][DBG] ID-IP-CHAN[0-10.5.68.76-0] [CPreviewPlayer::CreatePlayer] create player success, version is[v7.4.0.40]
+[2023-08-28 16:46:54.007][INF] Private connect 10.5.68.76:8000 sock=2756 this=0x27b239a4 cmd=0x30000 port=53951
+[2023-08-28 16:46:54.122][ERR] ID-IP-CHAN[0-10.5.68.76-0] [CGetTCPStream::LinkToDvr] struOut.dwDevState[7] dwErrCode[0xffffffff] dwMErrDevSelfEx[0xffffffff] CommandThread callback exception
+[2023-08-28 16:46:54.122][ERR] ID-IP-CHAN[0-10.5.68.76-0] [CPreviewSession::AllResourceStarWork] StreamGetterStartWork Failed, UserID[0]
+[2023-08-28 16:46:54.122][DBG] ID-IP-CHAN[0-10.5.68.76-0] [CPreviewSession::AllResourceStarWorkThread] EXCEPTION_PREVIEW trigger, AllResourceStarWork Failed, UserID[0] dwError[4]
+[2023-08-28 16:47:09.869][INF] COM_Logout[0][0]
+[2023-08-28 16:47:09.869][DBG] CUserMgr::UnRegisterHeartProxy[0]
+[2023-08-28 16:47:10.072][INF] Private connect 10.5.68.76:8000 sock=3124 this=0x27b239a4 cmd=0x10100 port=54031
+[2023-08-28 16:47:10.116][INF] CTransUnitMgr::UnloadTransUnitLib

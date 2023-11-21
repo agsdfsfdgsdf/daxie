@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.VelStatusDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.VelStatusData">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="deviceNum" column="device_num" jdbcType="VARCHAR"/>
+        <result property="fleet" column="fleet" jdbcType="VARCHAR"/>
+        <result property="energy" column="energy" jdbcType="VARCHAR"/>
+        <result property="loginStatus" column="login_status" jdbcType="INTEGER"/>
+        <result property="operationMode" column="operation_mode" jdbcType="INTEGER"/>
+        <result property="version" column="version" jdbcType="VARCHAR"/>
+        <result property="deviceTime" column="device_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.VelStatusData">
+        INSERT INTO vel_status_data (`id`, `device_num`, `fleet`,
+                                     `energy`, `login_status`, `operation_mode`,
+                                     `version`, `device_time`)
+        VALUES (null, #{deviceNum}, #{fleet},
+                #{energy}, #{loginStatus}, #{operationMode},
+                #{version}, #{deviceTime})
+    </insert>
+</mapper>

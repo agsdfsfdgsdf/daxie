@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.VelControlDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.VelControlData">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="deviceNum" column="device_num" jdbcType="VARCHAR"/>
+        <result property="longitudeR" column="longitude_r" jdbcType="DOUBLE"/>
+        <result property="latitudeR" column="latitude_r" jdbcType="DOUBLE"/>
+        <result property="longitudeD" column="longitude_d" jdbcType="DOUBLE"/>
+        <result property="latitudeD" column="latitude_d" jdbcType="DOUBLE"/>
+        <result property="speedR" column="speed_r" jdbcType="FLOAT"/>
+        <result property="speedD" column="speed_d" jdbcType="INTEGER"/>
+        <result property="speedL" column="speed_l" jdbcType="INTEGER"/>
+        <result property="throttleR" column="throttle_r" jdbcType="FLOAT"/>
+        <result property="throttleD" column="throttle_d" jdbcType="FLOAT"/>
+        <result property="throttleS" column="throttle_s" jdbcType="FLOAT"/>
+        <result property="brakeR" column="brake_r" jdbcType="FLOAT"/>
+        <result property="brakeD" column="brake_d" jdbcType="FLOAT"/>
+        <result property="brakeS" column="brake_s" jdbcType="FLOAT"/>
+        <result property="wheelR" column="wheel_r" jdbcType="FLOAT"/>
+        <result property="wheelD" column="wheel_d" jdbcType="FLOAT"/>
+        <result property="wheelS" column="wheel_s" jdbcType="FLOAT"/>
+        <result property="gearR" column="gear_r" jdbcType="VARCHAR"/>
+        <result property="gearD" column="gear_d" jdbcType="VARCHAR"/>
+        <result property="lightR" column="light_r" jdbcType="VARCHAR"/>
+        <result property="lightD" column="light_d" jdbcType="VARCHAR"/>
+        <result property="isCp" column="is_cp" jdbcType="INTEGER"/>
+        <result property="cpStart" column="cp_start" jdbcType="INTEGER"/>
+        <result property="cpEnd" column="cp_end" jdbcType="INTEGER"/>
+        <result property="deviceTime" column="device_time" jdbcType="TIMESTAMP"/>
+        <result property="position" column="position" jdbcType="INTEGER"/>
+        <result property="devDistance" column="dev_distance" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.VelStatusData">
+        INSERT INTO vel_control_data (`id`, `device_num`, `longitude_r`,
+                                 `latitude_r`, `longitude_d`, `latitude_d`,
+                                 `speed_r`, `speed_d`, `speed_l`,
+                                 `throttle_r`, `throttle_d`, `throttle_s`,
+                                 `brake_r`, `brake_d`,`brake_s`,
+                                 `wheel_r`, `wheel_d`,`wheel_s`,
+                                 `gear_r`, `gear_d`,`light_r`,
+                                 `light_d`, `is_cp`,`cp_start`,
+                                 `cp_end`, `device_time`,`position`,
+                                 `dev_distance`)
+        VALUES (null,#{deviceNum},#{longitudeR},
+                #{latitudeR},#{longitudeD},#{latitudeD},
+                #{speedR},#{speedD},#{speedL},
+                #{throttleR},#{throttleD},#{throttleS},
+                #{brakeR},#{brakeD},#{brakeS},
+                #{wheelR},#{wheelD},#{wheelS},
+                #{gearR},#{gearD},#{lightR},
+                #{lightD},#{isCp},#{cpStart},
+                #{cpEnd},#{deviceTime},#{position},
+                #{devDistance})
+    </insert>
+</mapper>

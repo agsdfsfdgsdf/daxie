@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.VelMissionDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.VelMissionData">
+        <id property="tableId" column="table_id" jdbcType="BIGINT"/>
+        <result property="containerDev" column="container_dev" jdbcType="INTEGER"/>
+        <result property="receivungTime" column="receivung_time" jdbcType="TIMESTAMP"/>
+        <result property="finishTime" column="finish_time" jdbcType="TIMESTAMP"/>
+        <result property="deviceNum" column="device_num" jdbcType="VARCHAR"/>
+        <result property="containerNo" column="container_no" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.VelMissionData">
+        INSERT INTO vel_mission_data (`table_id`, `container_dev`, `receivung_time`, `finish_time`, `device_num`,
+                                      `container_no`, `id`)
+        VALUES (null,
+                #{containerDev},
+                #{receivungTime},
+                #{finishTime},
+                #{deviceNum},
+                #{containerNo},
+                #{id})
+    </insert>
+</mapper>

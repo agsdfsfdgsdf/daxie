@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.TcsApiLockarriveMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.TcsApiLockarrive">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="truckNo" column="truck_no" jdbcType="VARCHAR"/>
+            <result property="token" column="token" jdbcType="VARCHAR"/>
+            <result property="paramTruckno" column="param_truckNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.TcsApiLockarrive">
+        INSERT INTO tcs_api_LockArrive (`id`, `time`, `truck_no`, `token`, `param_truckNo`)
+        VALUES (null,
+                #{time},
+                #{truckNo},
+                #{token},
+                #{paramTruckno})
+    </insert>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.TcsWebsocketGetQdInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.TcsWebsocketGetQdInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="truckNo" column="truck_no" jdbcType="VARCHAR"/>
+            <result property="resChangedtype" column="res_ChangedType" jdbcType="INTEGER"/>
+            <result property="resId" column="res_Id" jdbcType="VARCHAR"/>
+            <result property="resName" column="res_Name" jdbcType="VARCHAR"/>
+            <result property="resState" column="res_State" jdbcType="INTEGER"/>
+            <result property="resSling" column="res_Sling" jdbcType="VARCHAR"/>
+            <result property="resPosition" column="res_Position" jdbcType="VARCHAR"/>
+            <result property="resClosedlanes" column="res_ClosedLanes" jdbcType="VARCHAR"/>
+            <result property="resRefreshtime" column="res_RefreshTime" jdbcType="VARCHAR"/>
+            <result property="resRefreshtimevalue" column="res_RefreshTimeValue" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,time,truck_no,
+        res_ChangedType,res_Id,res_Name,
+        res_State,res_Sling,res_Position,
+        res_ClosedLanes,res_RefreshTime,res_RefreshTimeValue
+    </sql>
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.TcsWebsocketGetQdInfo">
+        INSERT INTO tcs_websocket_get_qd_info (`id`, `time`, `truck_no`,
+                                              `res_ChangedType`, `res_Id`,`res_Name`,
+                                              `res_State`, `res_Sling`, `res_Position`,`res_ClosedLanes`,
+                                               `res_RefreshTime`,`res_RefreshTimeValue`)
+        VALUES (null,
+                #{time},
+                #{truckNo},
+                #{resChangedtype},
+                #{resId},
+                #{resName},
+                #{resState},
+                #{resSling},
+                #{resPosition},
+                #{resClosedlanes},
+                #{resRefreshtime},
+                #{resRefreshtimevalue})
+            )
+    </insert>
+</mapper>

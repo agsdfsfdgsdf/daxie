@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyi.daxie.cloud.service.mapper.VelAligningDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.deyi.daxie.cloud.service.bean.VelAligningData">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="containerDev" column="container_dev" jdbcType="VARCHAR"/>
+            <result property="timestamp" column="Timestamp" jdbcType="TIMESTAMP"/>
+            <result property="deviceno" column="DeviceNo" jdbcType="VARCHAR"/>
+            <result property="truckno" column="TruckNo" jdbcType="VARCHAR"/>
+            <result property="containerNo" column="container_no" jdbcType="INTEGER"/>
+            <result property="rate" column="Rate" jdbcType="FLOAT"/>
+            <result property="controlMode" column="Control_Mode" jdbcType="BIT"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.deyi.daxie.cloud.service.bean.VelAligningData">
+        INSERT INTO vel_aligning_data (`id`, `container_dev`, `Timestamp`,
+                                   `DeviceNo`, `TruckNo`, `container_no`,
+                                   `Rate`, `Control_Mode`)
+        VALUES (null,
+                #{containerDev},
+                #{timestamp},
+                #{deviceno},
+                #{truckno},
+                #{containerNo},
+                #{rate},
+                #{controlMode})
+    </insert>
+</mapper>
