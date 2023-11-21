@@ -129,8 +129,6 @@ public class WebSocketServer {
 
         WSListener w = new WSListener();
         Result result = w.initWSListener(message);
-        //在消息发送的方法（@OnMessage）中出发线程池的执行，将消息进行异步发送
-        log.info("保存数据 from client(truck): " + message);
         //lessonMsgService.save(message);
         executorService.submit(() -> lessonMsgService.save(message));
         if (session != null && session.isOpen()) {

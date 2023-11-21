@@ -14,7 +14,15 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     transaction:
       rollback-on-commit-failure: true
-
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://192.168.150.192:3306/daxie?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    transaction:
+#      rollback-on-commit-failure: true
   redis:
     host: 106.14.68.195
     port: 6379

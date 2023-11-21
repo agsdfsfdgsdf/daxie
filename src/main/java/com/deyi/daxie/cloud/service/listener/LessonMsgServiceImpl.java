@@ -106,7 +106,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
     public void save(String message) {
         try {
             JSONObject obj = JSON.parseObject(message);
-            log.info("+++++obj{}",obj);
             MessageType type = MessageType.getByValue(obj.getString("messageType"));
             if (type == null) {
                   new Result(Constant.HTTP_ERROR, "Invalid request, data type does not exist");
@@ -233,7 +232,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void uploadTruckStatus(JSONObject obj) {
         JSONObject response = tcsHttpApi.uploadTruckStatus(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("上传集卡状态----obj{},response{}", obj, response);
         TcsUploadTruckStatus tcsUploadTruckStatus = new TcsUploadTruckStatus();
         tcsUploadTruckStatus.setTruckNo(obj.getString("truckNo"));
         tcsUploadTruckStatus.setTime(new Date());
@@ -246,7 +244,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsUploadTruckStatus.setParamSpeed(response.getString("speed"));
         tcsUploadTruckStatus.setParamTime(response.getString("time"));
         tcsUploadTruckStatus.setParamTruckno(obj.getString("truckNo"));
-        log.info("上传集卡状态----tcsUploadTruckStatus{}", tcsUploadTruckStatus);
         tcsUploadTruckStatusMapper.add(tcsUploadTruckStatus);
     }
 
@@ -258,7 +255,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getLedMessage(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLedMessage(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("获取LED显示的内容truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetLedMessage tcsGetLedMessage = new TcsGetLedMessage();
         tcsGetLedMessage.setResMessage(obj.getString("messageType"));
         tcsGetLedMessage.setTime(new Date());
@@ -278,7 +274,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getInstructions(JSONObject obj) {
         JSONObject response = tcsHttpApi.getInstructions(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("查询最新的指令信息truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetInstructions tcsGetInstructions = new TcsGetInstructions();
         tcsGetInstructions.setResMessage(obj.getString("messageType"));
         tcsGetInstructions.setTime(new Date());
@@ -298,7 +293,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void focusChannel(JSONObject obj) {
         JSONObject response = tcsHttpApi.focusChannel(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("业务信息订阅truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsFocusChannel tcsFocusChannel = new TcsFocusChannel();
         tcsFocusChannel.setResMessage(obj.getString("messageType"));
         tcsFocusChannel.setTime(new Date());
@@ -320,7 +314,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getYqInfo(JSONObject obj) {
         JSONObject response = tcsHttpApi.getYqInfo(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("获取上下引桥数据truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetYqInfo tcsGetYqInfo = new TcsGetYqInfo();
         tcsGetYqInfo.setResMessage(obj.getString("messageType"));
         tcsGetYqInfo.setTime(new Date());
@@ -362,7 +355,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void tcsQcPosition(JSONObject obj) {
         JSONObject response = tcsHttpApi.tcsQcPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("桥吊下集卡到位truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsQcPosition TcsQcPosition = new TcsQcPosition();
         TcsQcPosition.setTime(new Date());
         TcsQcPosition.setTruckNo(obj.getString("truckNo"));
@@ -388,7 +380,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getQdLaneInfo(JSONObject obj) {
         JSONObject response = tcsHttpApi.getQdLaneInfo(getToken(obj.getString("truckNo")));
-        log.info("获取桥吊作业车道数据truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetQdLaneInfo tcsGetQdLaneInfo = new TcsGetQdLaneInfo();
 
         tcsGetQdLaneInfo.setTime(new Date());
@@ -397,9 +388,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsGetQdLaneInfo.setResCode(response.getString("code"));
         tcsGetQdLaneInfo.setResMessage(obj.getString("messageType"));
         tcsGetQdLaneInfo.setResData(response.getString("data"));
-        log.info("data111222{}", response.getString("data"));
-        log.info("data2222{}", response.get("data"));
-        log.info("获取所有桥吊GPS数据tcsGetQdLaneInfo{}", tcsGetQdLaneInfo);
         tcsGetQdLaneInfoMapper.add(tcsGetQdLaneInfo);
     }
 
@@ -411,7 +399,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getQdGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getQdGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有桥吊GPS数据truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetQdGpsAll tcsGetQdGpsAll = new TcsGetQdGpsAll();
         tcsGetQdGpsAll.setTime(new Date());
         tcsGetQdGpsAll.setTruckNo(obj.getString("truckNo"));
@@ -419,9 +406,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsGetQdGpsAll.setResCode(response.getString("code"));
         tcsGetQdGpsAll.setResMessage(response.getString("message"));
         tcsGetQdGpsAll.setResData(response.getString("data"));
-        log.info("data111222{}", response.getString("data"));
-        log.info("data2222{}", response.get("data"));
-        log.info("获取所有桥吊GPS数据tcsGetQdGpsAll{}", tcsGetQdGpsAll);
         tcsGetQdGpsAllMapper.add(tcsGetQdGpsAll);
     }
 
@@ -433,7 +417,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void sendNotice(JSONObject obj) {
         JSONObject response = tcsHttpApi.sendNotice(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("发送提示信息至桥吊truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsSendNotice tcsSendNotice = new TcsSendNotice();
         tcsSendNotice.setTime(new Date());
         tcsSendNotice.setTruckNo(obj.getString("truckNo"));
@@ -454,7 +437,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void confirmQcCpsEnd(JSONObject obj) {
         JSONObject response = tcsHttpApi.confirmQcCpsEnd(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡桥吊下对位完成信息truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsTrucktotcsConfirmqccpsend tcsTrucktotcsConfirmqccpsend = new TcsTrucktotcsConfirmqccpsend();
         tcsTrucktotcsConfirmqccpsend.setTime(new Date());
         tcsTrucktotcsConfirmqccpsend.setTruckNo(obj.getString("truckNo"));
@@ -465,8 +447,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsTrucktotcsConfirmqccpsend.setResCode(response.getString("code"));
         tcsTrucktotcsConfirmqccpsend.setResMessage(obj.getString("messageType"));
         tcsTrucktotcsConfirmqccpsend.setResData(obj.getString("data"));
-        log.info("保存桥吊CPS数据+++++msg{}", response.getString("Data"));
-        log.info("保存桥吊CPS数据------msg{}", response.getJSONObject("Data"));
         tcsTrucktotcsConfirmqccpsendMapper.add(tcsTrucktotcsConfirmqccpsend);
     }
 
@@ -478,7 +458,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void tcsRtgTruck(JSONObject obj) {
         JSONObject response = tcsHttpApi.tcsRtgTruck(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡进出栏申请truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsRtgTruck tcsRtgTruck = new TcsRtgTruck();
         tcsRtgTruck.setTime(new Date());
         tcsRtgTruck.setTruckNo(obj.getString("truckNo"));
@@ -502,7 +481,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void changeRoad(JSONObject obj) {
         JSONObject response = tcsHttpApi.changeRoad(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内借道申请.truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsRtgChangeRoad tcsRtgChangeRoad = new TcsRtgChangeRoad();
         tcsRtgChangeRoad.setTime(new Date());
         tcsRtgChangeRoad.setTruckNo(obj.getString("truckNo"));
@@ -525,7 +503,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void uploadPosition(JSONObject obj) {
         JSONObject response = tcsHttpApi.uploadPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内到位上报.truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsRtgPosition tcsRtgPosition = new TcsRtgPosition();
         tcsRtgPosition.setTime(new Date());
         tcsRtgPosition.setTruckNo(obj.getString("truckNo"));
@@ -549,7 +526,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void confirmCpsStop(JSONObject obj) {
         JSONObject response = tcsHttpApi.confirmCpsStop(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内接收对位信息完成truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsRtgConfirmcpsstop tcsRtgConfirmcpsstop = new TcsRtgConfirmcpsstop();
         tcsRtgConfirmcpsstop.setTime(new Date());
         tcsRtgConfirmcpsstop.setTruckNo(obj.getString("truckNo"));
@@ -574,7 +550,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getLmdGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLmdGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有龙门吊GPS数据.truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetLmdGpsAll tcsGetLmdGpsAll = new TcsGetLmdGpsAll();
         tcsGetLmdGpsAll.setTime(new Date());
         tcsGetLmdGpsAll.setTruckNo(obj.getString("truckNo"));
@@ -593,7 +568,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getLjGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLjGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有龙门吊GPS数据.truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsGetLjGpsAll tcsGetLjGpsAll = new TcsGetLjGpsAll();
         tcsGetLjGpsAll.setTime(new Date());
         tcsGetLjGpsAll.setTruckNo(obj.getString("truckNo"));
@@ -601,8 +575,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsGetLjGpsAll.setResCode(response.getString("code"));
         tcsGetLjGpsAll.setResMessage(obj.getString("messageType"));
         tcsGetLjGpsAll.setResData(response.getString("data"));
-        log.info("保存龙门吊CPS数据+++++msg{}", response.getString("Data"));
-        log.info("保存龙门吊CPS数据------msg{}", response.getJSONObject("Data"));
         tcsGetLjGpsAllMapper.add(tcsGetLjGpsAll);
     }
 
@@ -622,7 +594,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetLmdDw.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketGetLmdDw.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketGetLmdDw.setResData(msg.getString("Data"));
-        log.info("保存指令信息获取msg{},tcsWebsocketGetLmdDw{}", msg, tcsWebsocketGetLmdDw);
         tcsWebsocketGetLmdDwMapper.add(tcsWebsocketGetLmdDw);
     }
 
@@ -642,9 +613,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetQdGps.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketGetQdGps.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketGetQdGps.setResData(msg.getString("Data"));
-        log.info("保存桥吊CPS数据+++++msg{}", msg.getString("Data"));
-        log.info("保存桥吊CPS数据------msg{}", msg.getJSONObject("Data"));
-        log.info("保存桥吊CPS数据msg{},tcsWebsocketGetQdGps{}", msg, tcsWebsocketGetQdGps);
         tcsWebsocketGetQdGpsMapper.add(tcsWebsocketGetQdGps);
     }
 
@@ -656,7 +624,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      */
     public void getChangedType(JSONObject msg) {
         // 保存至本地数据库
-        log.info("保存桥吊信息数据{}", msg);
         TcsWebsocketGetQdInfo tcsWebsocketGetQdInfo = new TcsWebsocketGetQdInfo();
         tcsWebsocketGetQdInfo.setTime(new Date());
         tcsWebsocketGetQdInfo.setTruckNo(msg.getString("truckNo"));
@@ -669,7 +636,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetQdInfo.setResClosedlanes(msg.getString("ClosedLanes"));
         tcsWebsocketGetQdInfo.setResRefreshtime(msg.getString("isMoving"));
         tcsWebsocketGetQdInfo.setResRefreshtimevalue(msg.getString("RefreshTimeValue"));
-        log.info("保存桥吊信息数据{}tcsWebsocketGetQdInfo{}", msg, tcsWebsocketGetQdInfo);
         tcsWebsocketGetQdInfoMapper.add(tcsWebsocketGetQdInfo);
     }
     /**
@@ -688,7 +654,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetQdDw.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketGetQdDw.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketGetQdDw.setResData(msg.getString("Data"));
-        log.info("保存桥吊激光对位数据{}tcsWebsocketGetQdDw{}", msg, tcsWebsocketGetQdDw);
         tcsWebsocketGetQdDwMapper.add(tcsWebsocketGetQdDw);
     }
     /**
@@ -707,7 +672,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetlmdInfo.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketGetlmdInfo.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketGetlmdInfo.setResData(msg.getString("Data"));
-        log.info("保存龙门吊对位数据{}tcsWebsocketGetlmdInfo{}", msg, tcsWebsocketGetlmdInfo);
         tcsWebsocketGetlmdInfoMapper.add(tcsWebsocketGetlmdInfo);
     }
     /**
@@ -726,7 +690,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketGetQdMv.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketGetQdMv.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketGetQdMv.setResData(msg.getString("Data"));
-        log.info("保存龙门吊对位数据{}tcsWebsocketGetQdMv{}", msg, tcsWebsocketGetQdMv);
         tcsWebsocketGetQdMvMapper.add(tcsWebsocketGetQdMv);
     }
     /**
@@ -745,7 +708,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketTruckDriveAway.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketTruckDriveAway.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketTruckDriveAway.setResData(msg.getString("Data"));
-        log.info("保存龙门吊对位数据{}tcsWebsocketTruckDriveAway{}", msg, tcsWebsocketTruckDriveAway);
         tcsWebsocketTruckDriveAwayMapper.add(tcsWebsocketTruckDriveAway);
     }
     /**
@@ -764,7 +726,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         tcsWebsocketLockDriveAway.setResSendtime(msg.getString("SendTime"));
         tcsWebsocketLockDriveAway.setResMsgid(msg.getIntValue("MsgId"));
         tcsWebsocketLockDriveAway.setResData(msg.getString("Data"));
-        log.info("保存龙门吊对位数据{}tcsWebsocketLockDriveAway{}", msg, tcsWebsocketLockDriveAway);
         tcsWebsocketLockDriveAwayMapper.add(tcsWebsocketLockDriveAway);
     }
 }

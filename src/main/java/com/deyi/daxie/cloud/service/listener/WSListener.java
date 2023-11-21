@@ -3,6 +3,7 @@ package com.deyi.daxie.cloud.service.listener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.deyi.daxie.cloud.service.bean.*;
+import com.deyi.daxie.cloud.service.email.EmailService;
 import com.deyi.daxie.cloud.service.http.SplunkHttpApi;
 import com.deyi.daxie.cloud.service.http.TCSHttpApi;
 import com.deyi.daxie.cloud.service.mapper.*;
@@ -38,6 +39,8 @@ public class WSListener {
     private static TcsLoginMapper tcsLoginMapper;
     private static TcsLogoutMapper tcsLogoutMapper;
 
+    private static EmailService emailService;
+
     private static TcsApiLockarriveMapper tcsApiLockarriveMapper;
 
     @Autowired
@@ -53,6 +56,11 @@ public class WSListener {
     @Autowired
     public void setSplunkHttpApi(SplunkHttpApi splunkHttpApi) {
         WSListener.splunkHttpApi = splunkHttpApi;
+    }
+
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        WSListener.emailService = emailService;
     }
 
     @Autowired
@@ -266,11 +274,9 @@ public class WSListener {
      * @return Result
      */
     public Result logout(JSONObject obj) {
-        log.info("用户退出obj{}", obj.toString());
         String truckNo = obj.getJSONObject("data").getString("username");
         WebSocketClient socketClient = WebSocketServer.TCS_CLIENT_MAP.get(truckNo);
         JSONObject response = tcsHttpApi.logout(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("logout response == " + response.toJSONString());
         // TCS应答失败
         if (!Objects.equals(response.getString("code"), Constant.TCS_SUCCESS)) {
             log.info("logout response code is not 200");
@@ -343,9 +349,7 @@ public class WSListener {
      * @return Result
      */
     public Result uploadTruckStatus(JSONObject obj) {
-        log.info("上传集卡状态-obj{}", obj.toString());
         JSONObject response = tcsHttpApi.uploadTruckStatus(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("上传集卡状态-TCStruckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -357,10 +361,8 @@ public class WSListener {
      * @return Result
      */
     public Result getLedMessage(JSONObject obj) {
-        log.info("获取LED显示的内容obj{}", obj.toString());
 
         JSONObject response = tcsHttpApi.getLedMessage(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("获取LED显示的内容truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -372,10 +374,8 @@ public class WSListener {
      * @return Result
      */
     public Result getInstructions(JSONObject obj) {
-        log.info("查询最新的指令信息obj{}",obj.toString());
 
         JSONObject response = tcsHttpApi.getInstructions(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("查询最新的指令信息truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -387,9 +387,7 @@ public class WSListener {
      * @return Result
      */
     public Result focusChannel(JSONObject obj) {
-        log.info("业务信息订阅obj{}", obj.toString());
         JSONObject response = tcsHttpApi.focusChannel(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("业务信息订阅truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -401,9 +399,7 @@ public class WSListener {
      * @return Result
      */
     public Result getYqInfo(JSONObject obj) {
-        log.info("获取上下引桥数据obj{}", obj.toString());
         JSONObject response = tcsHttpApi.getYqInfo(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("获取上下引桥数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -415,9 +411,7 @@ public class WSListener {
      * @return Result
      */
     public Result uploadTruckLiHuo(JSONObject obj) {
-        log.info("理货上报车号功能obj{}", obj.toString());
         JSONObject response = tcsHttpApi.uploadTruckLiHuo(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("理货上报车号功能truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -443,9 +437,7 @@ public class WSListener {
      * @return Result
      */
     public Result getQdLaneInfo(JSONObject obj) {
-        log.info("获取桥吊作业车道数据obj{}", obj.toString());
         JSONObject response = tcsHttpApi.getQdLaneInfo(getToken(obj.getString("truckNo")));
-        log.info("获取桥吊作业车道数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -457,9 +449,8 @@ public class WSListener {
      * @return Result
      */
     public Result getQdGpsAll(JSONObject obj) {
-        log.info("获取所有桥吊GPS数据obj{}", obj.toString());
+
         JSONObject response = tcsHttpApi.getQdGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有桥吊GPS数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -471,9 +462,7 @@ public class WSListener {
      * @return Result
      */
     public Result sendNotice(JSONObject obj) {
-        log.info("发送提示信息至桥吊obj{}", obj.toString());
         JSONObject response = tcsHttpApi.sendNotice(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("发送提示信息至桥吊truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -485,9 +474,7 @@ public class WSListener {
      * @return Result
      */
     public Result confirmQcCpsEnd(JSONObject obj) {
-        log.info("无人集卡桥吊下对位完成信息obj{}", obj.toString());
         JSONObject response = tcsHttpApi.confirmQcCpsEnd(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡桥吊下对位完成信息truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -499,9 +486,7 @@ public class WSListener {
      * @return Result
      */
     public Result tcsRtgTruck(JSONObject obj) {
-        log.info("无人集卡进出栏申请obj{}", obj.toString());
         JSONObject response = tcsHttpApi.tcsRtgTruck(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡进出栏申请truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -513,9 +498,7 @@ public class WSListener {
      * @return Result
      */
     public Result changeRoad(JSONObject obj) {
-        log.info("无人集卡堆场内借道申请obj{}", obj.toString());
         JSONObject response = tcsHttpApi.changeRoad(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内借道申请truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -527,9 +510,7 @@ public class WSListener {
      * @return Result
      */
     public Result uploadPosition(JSONObject obj) {
-        log.info("无人集卡堆场内到位上报obj{}", obj.toString());
         JSONObject response = tcsHttpApi.uploadPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内到位上报truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -541,9 +522,7 @@ public class WSListener {
      * @return Result
      */
     public Result confirmCpsStop(JSONObject obj) {
-        log.info("无人集卡堆场内接收对位信息完成obj{}", obj.toString());
         JSONObject response = tcsHttpApi.confirmCpsStop(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("无人集卡堆场内接收对位信息完成truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -555,9 +534,7 @@ public class WSListener {
      * @return Result
      */
     public Result getLmdGpsAll(JSONObject obj) {
-        log.info("获取所有龙门吊GPS数据obj{}", obj.toString());
         JSONObject response = tcsHttpApi.getLmdGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有龙门吊GPS数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -569,9 +546,7 @@ public class WSListener {
      * @return Result
      */
     public Result getLjGpsAll(JSONObject obj) {
-        log.info("获取所有龙门吊GPS数据obj{}", obj.toString());
         JSONObject response = tcsHttpApi.getLjGpsAll(getToken(obj.getString("truckNo")));
-        log.info("获取所有龙门吊GPS数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
 
         return commonToVel(obj.getString("messageType"), response);
     }
@@ -583,10 +558,8 @@ public class WSListener {
      * @return Result
      */
     public Result lockArrive(JSONObject obj) {
-        log.info("装卸锁对接obj{}", obj.toString());
         // 请求TCS
         JSONObject response = tcsHttpApi.lockArrive(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("装卸锁对接ruckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
         return commonToVel(obj.getString("messageType"), response);
     }
 
@@ -597,10 +570,8 @@ public class WSListener {
      * @return Result
      */
     public Result getOnlineStatus(JSONObject obj) {
-        log.info("查询TOS集卡在线状态obj{}", obj.toString());
         // 请求TCS
         JSONObject response = tcsHttpApi.getOnlineStatus(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("查询TOS集卡在线状态truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
         return commonToVel(obj.getString("messageType"), response);
     }
 
@@ -611,10 +582,8 @@ public class WSListener {
      * @return Result
      */
     public Result getJkGpsAll(JSONObject obj) {
-        log.info("获取集卡GPS数据obj{}", obj.toString());
         // 请求TCS
         JSONObject response = tcsHttpApi.getJkGpsAll(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("获取集卡GPS数据truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
         return commonToVel(obj.getString("messageType"), response);
     }
 
@@ -625,10 +594,8 @@ public class WSListener {
      * @return Result
      */
     public Result getTruckUnlock(JSONObject obj) {
-        log.info("查询集卡是否需要装卸锁obj{}", obj.toString());
         // 请求TCS
         JSONObject response = tcsHttpApi.getTruckUnlock(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("查询集卡是否需要装卸锁truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
         return commonToVel(obj.getString("messageType"), response);
     }
 
@@ -650,7 +617,6 @@ public class WSListener {
         velStatus.setOperationMode(msg.getIntValue("operation_mode"));
         velStatus.setVersion(msg.getString("version"));
         velStatus.setDeviceTime(msg.getString("device_time"));
-        log.info("状态数据上传.msg{},velStatus{}",msg, velStatus);
         int count = WSListener.velStatusDataMapper.add(velStatus);
         if (count > 0) {
             return Result.success();
@@ -696,7 +662,6 @@ public class WSListener {
         velControlData.setDeviceTime(msg.getString("device_time"));
         velControlData.setPosition(msg.getIntValue("position"));
         velControlData.setDevDistance(msg.getIntValue("dev_distance"));
-        log.info("控制数据上传.msg{},velControlData{}",msg, velControlData);
         int count = WSListener.velControlDataMapper.add(velControlData);
         if (count > 0) {
             return Result.success();
@@ -721,7 +686,6 @@ public class WSListener {
         velMissionData.setDeviceNum(msg.getString("device_num"));
         velMissionData.setContainerNo(msg.getString("container_no"));
         velMissionData.setId(msg.getIntValue("toss_id"));
-        log.info("任务数据上传.msg{},velMissionData{}",msg, velMissionData);
         int count = WSListener.velMissionDataMapper.add(velMissionData);
         if (count > 0) {
             return Result.success();
@@ -777,8 +741,9 @@ public class WSListener {
         velWarnData.setImuData(msg.getBooleanValue("IMU_data"));
         velWarnData.setImuSd(msg.getBooleanValue("IMU_sd"));
         velWarnData.setLocationSd(msg.getBooleanValue("location_sd"));
-        log.info("告警数据上传.msg{},velWarnData{}",msg, velWarnData);
+        log.info("告警数据上传{}",velWarnData);
         int count = WSListener.velWarnDataMapper.add(velWarnData);
+        emailService.createAlertInfo(velWarnData);
         if (count > 0) {
             return Result.success();
         }
@@ -803,7 +768,6 @@ public class WSListener {
         velAligningData.setContainerNo(msg.getIntValue("container_no"));
         velAligningData.setRate(msg.getDoubleValue("Rate"));
         velAligningData.setControlMode(msg.getBooleanValue("Control_Mode"));
-        log.info("任务数据上传.msg{},velAligningData{}",msg, velAligningData);
         int count = WSListener.velAligningDataMapper.add(velAligningData);
         if (count > 0) {
             return Result.success();
@@ -849,7 +813,6 @@ public class WSListener {
         velObstacleData.setObstacle3Safelevel(msg.getDoubleValue("obstacle3_safelevel"));
         velObstacleData.setArtIntervention(msg.getBooleanValue("art_intervention"));
         velObstacleData.setLineBreak(msg.getDoubleValue("line_break"));
-        log.info("障碍物数据上传.msg{},velObstacleData{}",msg, velObstacleData);
         int count = WSListener.velObstacleDataMapper.add(velObstacleData);
         if (count > 0) {
             return Result.success();
