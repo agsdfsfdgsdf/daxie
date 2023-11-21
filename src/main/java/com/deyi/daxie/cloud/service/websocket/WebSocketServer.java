@@ -1,5 +1,6 @@
 package com.deyi.daxie.cloud.service.websocket;
 
+import com.alibaba.fastjson.JSONObject;
 import com.deyi.daxie.cloud.service.listener.LessonMsgService;
 import com.deyi.daxie.cloud.service.listener.WSListener;
 import com.deyi.daxie.cloud.service.redis.RedisUtil;
@@ -8,6 +9,7 @@ import com.deyi.daxie.cloud.service.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +34,14 @@ public class WebSocketServer {
     private static ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     private static LessonMsgService lessonMsgService;
+
+
+    private static KafkaTemplate kafkaTemplate;
+
+    @Autowired
+    public void setKafkaTemplate(KafkaTemplate kafkaTemplate) {
+        WebSocketServer.kafkaTemplate = kafkaTemplate;
+    }
 
     @Autowired
     public void setLessonMsgService(LessonMsgService lessonMsgService) {
@@ -130,6 +140,7 @@ public class WebSocketServer {
         WSListener w = new WSListener();
         Result result = w.initWSListener(message);
         //lessonMsgService.save(message);
+        kafkaTemplate.send("chatMessage", message);
         executorService.submit(() -> lessonMsgService.save(message));
         if (session != null && session.isOpen()) {
             synchronized (session) {
@@ -202,5 +213,39 @@ public class WebSocketServer {
         } else {
             log.info("Can`t find appoint id:" + sessionId);
         }
+    }
+    /**
+     * kafka发送消息监听事件，有消息分发
+     *
+     * @param message
+     * @author cxb
+     */
+    public void kafkaReceiveMsg(String message) {
+        JSONObject jsonObject = JSONObject.parseObject(message);
+        //String receiver_id = jsonObject.getString("receiver_id"); //接受者ID
+        Session session = null;
+        for (Map.Entry<String, Session> entry : SESSION_MAP.entrySet()) {
+            Session value = entry.getValue();
+            if (Objects.equals(session, value.getId())) {
+                session = value;
+                break;
+            }
+        }
+
+        if (session != null) {
+            session.getAsyncRemote().sendText(message);
+        } else {
+            log.info("Can`t find appoint id:" + session);
+        }
+    }
+    /**
+     * kafka监听关闭websocket连接
+     *
+     * @param closeMessage
+     */
+    public void kafkaCloseWebsocket(String closeMessage) {
+        JSONObject jsonObject = JSONObject.parseObject(closeMessage);
+        String truckNo = jsonObject.getString("truckNo");
+        SESSION_MAP.remove(truckNo);
     }
 }
