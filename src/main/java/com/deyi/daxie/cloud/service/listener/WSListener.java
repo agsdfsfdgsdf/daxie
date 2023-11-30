@@ -3,7 +3,6 @@ package com.deyi.daxie.cloud.service.listener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.deyi.daxie.cloud.service.bean.*;
-import com.deyi.daxie.cloud.service.email.EmailService;
 import com.deyi.daxie.cloud.service.http.SplunkHttpApi;
 import com.deyi.daxie.cloud.service.http.TCSHttpApi;
 import com.deyi.daxie.cloud.service.mapper.*;
@@ -39,8 +38,6 @@ public class WSListener {
     private static TcsLoginMapper tcsLoginMapper;
     private static TcsLogoutMapper tcsLogoutMapper;
 
-    private static EmailService emailService;
-
     private static TcsApiLockarriveMapper tcsApiLockarriveMapper;
 
     @Autowired
@@ -56,11 +53,6 @@ public class WSListener {
     @Autowired
     public void setSplunkHttpApi(SplunkHttpApi splunkHttpApi) {
         WSListener.splunkHttpApi = splunkHttpApi;
-    }
-
-    @Autowired
-    public void setEmailService(EmailService emailService) {
-        WSListener.emailService = emailService;
     }
 
     @Autowired
@@ -743,7 +735,6 @@ public class WSListener {
         velWarnData.setLocationSd(msg.getBooleanValue("location_sd"));
         log.info("告警数据上传{}",velWarnData);
         int count = WSListener.velWarnDataMapper.add(velWarnData);
-        emailService.createAlertInfo(velWarnData);
         if (count > 0) {
             return Result.success();
         }
