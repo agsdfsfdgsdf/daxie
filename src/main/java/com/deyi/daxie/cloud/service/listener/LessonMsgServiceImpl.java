@@ -13,6 +13,7 @@ import com.deyi.daxie.cloud.service.websocket.WebSocketClient;
 import com.deyi.daxie.cloud.service.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.CloseReason;
@@ -397,6 +398,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getQdGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getQdGpsAll(getToken(obj.getString("truckNo")));
         TcsGetQdGpsAll tcsGetQdGpsAll = new TcsGetQdGpsAll();
