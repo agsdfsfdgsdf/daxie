@@ -12,4 +12,8 @@ public interface VelStatusDataMapper {
      * @return int
      */
     int add(VelStatusData velStatus);
+
+    VelStatusData queryByDevice(String deviceNum);
+
+    void updateLogOut(Long id);
 }

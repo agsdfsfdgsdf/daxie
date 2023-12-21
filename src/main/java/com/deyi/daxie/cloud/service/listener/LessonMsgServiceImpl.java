@@ -8,20 +8,15 @@ import com.deyi.daxie.cloud.service.http.TCSHttpApi;
 import com.deyi.daxie.cloud.service.mapper.*;
 import com.deyi.daxie.cloud.service.redis.RedisUtil;
 import com.deyi.daxie.cloud.service.util.Constant;
+import com.deyi.daxie.cloud.service.util.DeviceEnum;
 import com.deyi.daxie.cloud.service.util.Result;
-import com.deyi.daxie.cloud.service.websocket.WebSocketClient;
-import com.deyi.daxie.cloud.service.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.websocket.CloseReason;
-import javax.websocket.Session;
-import java.io.IOException;
 import java.util.*;
 
-import static com.deyi.daxie.cloud.service.websocket.WebSocketServer.SESSION_MAP;
 @Slf4j
 @Service
 public class LessonMsgServiceImpl implements LessonMsgService{
@@ -34,16 +29,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
     private  SplunkHttpApi splunkHttpApi;
     @Autowired
     private  VelStatusDataMapper velStatusDataMapper;
-    @Autowired
-    private  VelControlDataMapper velControlDataMapper;
-    @Autowired
-    private  VelMissionDataMapper velMissionDataMapper;
-    @Autowired
-    private  VelWarnDataMapper velWarnDataMapper;
-    @Autowired
-    private  VelAligningDataMapper velAligningDataMapper;
-    @Autowired
-    private  VelObstacleDataMapper velObstacleDataMapper;
     @Autowired
     private  TcsLoginMapper tcsLoginMapper;
     @Autowired
@@ -100,8 +85,6 @@ public class LessonMsgServiceImpl implements LessonMsgService{
     private  TcsWebsocketTruckDriveAwayMapper tcsWebsocketTruckDriveAwayMapper;
     @Autowired
     private  TcsWebsocketLockDriveAwayMapper tcsWebsocketLockDriveAwayMapper;
-    @Autowired
-    private  TcsApiLockarriveMapper tcsApiLockarriveMapper;
 
     @Override
     public void save(String message) {
@@ -175,6 +158,47 @@ public class LessonMsgServiceImpl implements LessonMsgService{
             }
         } catch (Exception e) {
              new Result(Constant.HTTP_ERROR, "Invalid request, " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void logoutJob() {
+        List<String> ls = new ArrayList<>();
+        String T901= DeviceEnum.NUMONE.getDeviceNum();
+        String T902= DeviceEnum.NUMTWO.getDeviceNum();
+        String T903= DeviceEnum.NUMTHREE.getDeviceNum();
+        String T904= DeviceEnum.NUMFOUR.getDeviceNum();
+        String T905= DeviceEnum.NUMFIVE.getDeviceNum();
+        String T906= DeviceEnum.NUMSIX.getDeviceNum();
+        String T907= DeviceEnum.NUMSEVEN.getDeviceNum();
+        String T908= DeviceEnum.NUMEIGHT.getDeviceNum();
+        ls.add(T901);
+        ls.add(T902);
+        ls.add(T903);
+        ls.add(T904);
+        ls.add(T905);
+        ls.add(T906);
+        ls.add(T907);
+        ls.add(T908);
+        for(String deviceNum:ls){
+            VelStatusData velStatusData = velStatusDataMapper.queryByDevice(deviceNum);
+            String ps = DeviceEnum.getPassWord(deviceNum);
+            String un = DeviceEnum.getPassWord(deviceNum);
+            LogoutJob jb = new LogoutJob();
+            jb.setMessageType("Logout");
+            jb.setTruckNo(deviceNum);
+            USER user = new USER();
+            user.setPassword(ps);
+            user.setUsername(un);
+            jb.setData(user);
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(jb);
+            if(velStatusData.getLoginStatus()==1){
+                WSListener w = new WSListener();
+                Result result = w.initWSListener(String.valueOf(jsonObject));
+                if( result.isSuccess()){
+                    velStatusDataMapper.updateLogOut(velStatusData.getId());
+                }
+            }
         }
     }
 

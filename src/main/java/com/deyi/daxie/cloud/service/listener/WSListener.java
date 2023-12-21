@@ -266,9 +266,12 @@ public class WSListener {
      * @return Result
      */
     public Result logout(JSONObject obj) {
+        log.info("++++++{}",obj);
         String truckNo = obj.getJSONObject("data").getString("username");
         WebSocketClient socketClient = WebSocketServer.TCS_CLIENT_MAP.get(truckNo);
+        log.info("=======}",socketClient);
         JSONObject response = tcsHttpApi.logout(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
+        log.info("******{}",response);
         // TCS应答失败
         if (!Objects.equals(response.getString("code"), Constant.TCS_SUCCESS)) {
             log.info("logout response code is not 200");

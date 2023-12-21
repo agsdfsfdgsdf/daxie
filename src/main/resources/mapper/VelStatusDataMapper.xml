@@ -23,4 +23,10 @@
                 #{energy}, #{loginStatus}, #{operationMode},
                 #{version}, #{deviceTime})
     </insert>
+    <select id="queryByDevice" resultType="com.deyi.daxie.cloud.service.bean.VelStatusData">
+        select * from  vel_status_data  where device_num = #{deviceNum} order by device_time desc limit 1
+    </select>
+    <update id="updateLogOut">
+        update vel_status_data set login_status= 0 and operation_mode=-1 where id = #{id}
+    </update>
 </mapper>

@@ -4,4 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 
 public interface LessonMsgService {
     void save(String message);
+
+    void logoutJob();
 }
