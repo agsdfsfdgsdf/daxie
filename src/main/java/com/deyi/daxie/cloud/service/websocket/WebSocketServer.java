@@ -50,11 +50,11 @@ public class WebSocketServer {
     }*/
 
     // 车-云 session
-    //public static final Map<String, Session> SESSION_MAP = new HashMap<>();
-    public static final Map<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Session> SESSION_MAP = new HashMap<>();
+    //public static final Map<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
     // 车-云-TCS client
-    public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new ConcurrentHashMap<>();
-   // public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new HashMap<>();
+    //public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new HashMap<>();
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         WebSocketServer.redisUtil = redisUtil;
