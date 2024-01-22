@@ -82,8 +82,10 @@ public class WebSocketClient {
     }
 
     @OnClose
-    public void onClose(Session session) {
+    public void onClose(Session session, CloseReason closeReason) {
         log.info("dell-WebSocketClient onClose, session.getId(): " + session.getId() + ", truckNo: " + truckNo);
+        // 连接断开时发送消息给客户端
+
         WebSocketServer.TCS_CLIENT_MAP.remove(truckNo);
     }
 
@@ -117,5 +119,6 @@ public class WebSocketClient {
     public void sendMsg(String message) {
         session_cloud_tcs.getAsyncRemote().sendText(message);
     }
+
 }
 

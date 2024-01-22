@@ -9,7 +9,7 @@ public enum DeviceEnum {
     NUMTHREE("T903", "T903","903903"),
     NUMFOUR("T904", "T904","904904"),
     NUMFIVE("T905", "T905","905905"),
-    NUMSIX("T906", "T906","123456"),
+    NUMSIX("T906", "T906","906906"),
     NUMSEVEN("T907", "T907","123456"),
     NUMEIGHT("T908", "T908","123456");
     /**

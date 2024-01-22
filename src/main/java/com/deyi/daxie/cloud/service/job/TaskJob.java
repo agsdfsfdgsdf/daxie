@@ -12,9 +12,10 @@ public class TaskJob {
     @Resource
     private LessonMsgService lessonMsgService;
 
-    @Scheduled(cron = "0 0 22 * * ?")
+    @Scheduled(cron = "0 55 21 * * ?")
     public void logoutJob() {
+        System.out.println("通过cron定义的定时任务开始");
         lessonMsgService.logoutJob();
-        System.out.println("通过cron定义的定时任务");
+        System.out.println("通过cron定义的定时任务结束");
     }
 }

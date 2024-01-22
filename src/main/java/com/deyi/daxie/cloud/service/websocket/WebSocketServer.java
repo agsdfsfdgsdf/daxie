@@ -1,14 +1,17 @@
 package com.deyi.daxie.cloud.service.websocket;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.deyi.daxie.cloud.service.bean.VelStatusData;
 import com.deyi.daxie.cloud.service.listener.LessonMsgService;
 import com.deyi.daxie.cloud.service.listener.WSListener;
+import com.deyi.daxie.cloud.service.mapper.VelStatusDataMapper;
 import com.deyi.daxie.cloud.service.redis.RedisUtil;
 import com.deyi.daxie.cloud.service.util.Constant;
 import com.deyi.daxie.cloud.service.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,30 +22,39 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
 @ServerEndpoint(value = "/websocket/dispatch/{truckNo}")
 public class WebSocketServer {
+
+    private ScheduledExecutorService heartbeatScheduler;
     private static RedisUtil redisUtil;
     private static final AtomicInteger ONLINE_COUNT = new AtomicInteger(0);
     //声明线程池，大小为30
-    private static ExecutorService executorService = Executors.newFixedThreadPool(30);
+    private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     private static LessonMsgService lessonMsgService;
+
+    //private static VelStatusDataMapper velStatusDataMapper;
 
     @Autowired
     public void setLessonMsgService(LessonMsgService lessonMsgService) {
         WebSocketServer.lessonMsgService = lessonMsgService;
     }
+    /*@Autowired
+    public void setVelStatusDataMapper(VelStatusDataMapper velStatusDataMapper) {
+        WebSocketServer.velStatusDataMapper = velStatusDataMapper;
+    }*/
 
     // 车-云 session
-    public static final Map<String, Session> SESSION_MAP = new HashMap<>();
+    //public static final Map<String, Session> SESSION_MAP = new HashMap<>();
+    public static final Map<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
     // 车-云-TCS client
-    public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new HashMap<>();
+    public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new ConcurrentHashMap<>();
+   // public static final Map<String, WebSocketClient> TCS_CLIENT_MAP = new HashMap<>();
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         WebSocketServer.redisUtil = redisUtil;
@@ -69,7 +81,8 @@ public class WebSocketServer {
         session.setMaxTextMessageBufferSize(100 * 1024 * 1024); // 100M
         session.setMaxBinaryMessageBufferSize(100 * 1024 * 1024); // 100M
         SESSION_MAP.put(truckNo + "+" + session.getId(), session);
-        log.info("link success...");
+        // 启动心跳定时任务
+        startHeartbeat(session);
     }
 
     /**
@@ -99,6 +112,8 @@ public class WebSocketServer {
     @OnClose
     public void onClose(Session session) {
         log.info("WebSocketServer onClose " + session.getId());
+        // 关闭连接时停止心跳定时任务
+        stopHeartbeat();
         // 车辆与dell断开连接后，删除map中的session
         for (Map.Entry<String, Session> entry : SESSION_MAP.entrySet()) {
             String key = entry.getKey();
@@ -127,7 +142,6 @@ public class WebSocketServer {
     @OnMessage
     public void onMessage(String message, Session session) {
         log.info("dell-server have new message from client(truck): " + message);
-
         WSListener w = new WSListener();
         Result result = w.initWSListener(message);
         //lessonMsgService.save(message);
@@ -135,6 +149,11 @@ public class WebSocketServer {
         if (session != null && session.isOpen()) {
             synchronized (session) {
                 try {
+                    /*JSONObject obj = JSON.parseObject(message);
+                    String truckNo = obj.getString("truckNo");
+                    log.info("-----{}",truckNo);
+                    VelStatusData velStatusData = velStatusDataMapper.queryByDevice(truckNo);
+                    log.info("======{}",velStatusData);*/
                     session.getBasicRemote().sendText(Result.toString(result));
                     log.info("dell-server send the message to client(truck)：" + Result.toString(result));
                 } catch (IOException e) {
@@ -197,11 +216,30 @@ public class WebSocketServer {
                 break;
             }
         }
-
         if (session != null) {
             session.getAsyncRemote().sendText(message);
         } else {
             log.info("Can`t find appoint id:" + sessionId);
+        }
+    }
+    private void startHeartbeat(Session session) {
+        heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
+        heartbeatScheduler.scheduleAtFixedRate(() -> sendHeartbeat(session), 10, 10, TimeUnit.SECONDS);
+    }
+    private void sendHeartbeat(Session session) {
+        try {
+            JSONObject response = new JSONObject();
+            response.put("code", Constant.TCS_SUCCESS);
+            Result result =new Result(200,"getTcsWebsoketstate", response);
+            session.getBasicRemote().sendText(Result.toString(result));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopHeartbeat() {
+        if (heartbeatScheduler != null) {
+            heartbeatScheduler.shutdownNow();
         }
     }
 }

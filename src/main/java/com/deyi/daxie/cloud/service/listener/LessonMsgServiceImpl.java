@@ -180,6 +180,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
         ls.add(T906);
         ls.add(T907);
         ls.add(T908);
+        log.info("-----",ls);
         for(String deviceNum:ls){
             VelStatusData velStatusData = velStatusDataMapper.queryByDevice(deviceNum);
             String ps = DeviceEnum.getPassWord(deviceNum);
@@ -235,6 +236,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void alive(JSONObject obj) {
         JSONObject response = tcsHttpApi.alive(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsUploadAlive tcsUploadAlive = new TcsUploadAlive();
@@ -255,6 +257,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void uploadTruckStatus(JSONObject obj) {
         JSONObject response = tcsHttpApi.uploadTruckStatus(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsUploadTruckStatus tcsUploadTruckStatus = new TcsUploadTruckStatus();
@@ -278,6 +281,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getLedMessage(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLedMessage(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsGetLedMessage tcsGetLedMessage = new TcsGetLedMessage();
@@ -297,16 +301,19 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getInstructions(JSONObject obj) {
         JSONObject response = tcsHttpApi.getInstructions(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
+        log.info("^^^^^{}",response);
         TcsGetInstructions tcsGetInstructions = new TcsGetInstructions();
         tcsGetInstructions.setResMessage(obj.getString("messageType"));
         tcsGetInstructions.setTime(new Date());
         tcsGetInstructions.setParamTruckno(obj.getString("truckNo"));
         tcsGetInstructions.setResCode(response.getString("code"));
         tcsGetInstructions.setToken(getToken(obj.getString("truckNo")));
-        tcsGetInstructions.setResData(response.getString("data"));
+        tcsGetInstructions.setResData(response.get("data").toString());
         tcsGetInstructions.setTruckNo(obj.getString("truckNo"));
+        log.info("&&&&&{}",tcsGetInstructions);
         tcsGetInstructionsMapper.add(tcsGetInstructions);
     }
 
@@ -316,6 +323,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void focusChannel(JSONObject obj) {
         JSONObject response = tcsHttpApi.focusChannel(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsFocusChannel tcsFocusChannel = new TcsFocusChannel();
@@ -337,6 +345,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getYqInfo(JSONObject obj) {
         JSONObject response = tcsHttpApi.getYqInfo(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsGetYqInfo tcsGetYqInfo = new TcsGetYqInfo();
@@ -356,9 +365,9 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void uploadTruckLiHuo(JSONObject obj) {
         JSONObject response = tcsHttpApi.uploadTruckLiHuo(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("理货上报车号功能truckNo{},response{}", getToken(obj.getString("truckNo")), response);
         TcsUploadTruckNoToLiHuo tcsUploadTruckNoToLiHuo = new TcsUploadTruckNoToLiHuo();
         tcsUploadTruckNoToLiHuo.setTime(new Date());
         tcsUploadTruckNoToLiHuo.setTruckNo(obj.getString("truckNo"));
@@ -378,6 +387,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void tcsQcPosition(JSONObject obj) {
         JSONObject response = tcsHttpApi.tcsQcPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsQcPosition TcsQcPosition = new TcsQcPosition();
@@ -403,6 +413,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getQdLaneInfo(JSONObject obj) {
         JSONObject response = tcsHttpApi.getQdLaneInfo(getToken(obj.getString("truckNo")));
         TcsGetQdLaneInfo tcsGetQdLaneInfo = new TcsGetQdLaneInfo();
@@ -441,6 +452,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void sendNotice(JSONObject obj) {
         JSONObject response = tcsHttpApi.sendNotice(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsSendNotice tcsSendNotice = new TcsSendNotice();
@@ -461,6 +473,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void confirmQcCpsEnd(JSONObject obj) {
         JSONObject response = tcsHttpApi.confirmQcCpsEnd(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsTrucktotcsConfirmqccpsend tcsTrucktotcsConfirmqccpsend = new TcsTrucktotcsConfirmqccpsend();
@@ -482,6 +495,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void tcsRtgTruck(JSONObject obj) {
         JSONObject response = tcsHttpApi.tcsRtgTruck(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsRtgTruck tcsRtgTruck = new TcsRtgTruck();
@@ -505,6 +519,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void changeRoad(JSONObject obj) {
         JSONObject response = tcsHttpApi.changeRoad(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsRtgChangeRoad tcsRtgChangeRoad = new TcsRtgChangeRoad();
@@ -527,6 +542,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void uploadPosition(JSONObject obj) {
         JSONObject response = tcsHttpApi.uploadPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsRtgPosition tcsRtgPosition = new TcsRtgPosition();
@@ -550,6 +566,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void confirmCpsStop(JSONObject obj) {
         JSONObject response = tcsHttpApi.confirmCpsStop(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
         TcsRtgConfirmcpsstop tcsRtgConfirmcpsstop = new TcsRtgConfirmcpsstop();
@@ -574,6 +591,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getLmdGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLmdGpsAll(getToken(obj.getString("truckNo")));
         TcsGetLmdGpsAll tcsGetLmdGpsAll = new TcsGetLmdGpsAll();
@@ -592,6 +610,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param obj obj
      * @return Result
      */
+    @Async
     public void getLjGpsAll(JSONObject obj) {
         JSONObject response = tcsHttpApi.getLjGpsAll(getToken(obj.getString("truckNo")));
         TcsGetLjGpsAll tcsGetLjGpsAll = new TcsGetLjGpsAll();
@@ -610,6 +629,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void tosOrder(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetLmdDw tcsWebsocketGetLmdDw = new TcsWebsocketGetLmdDw();
@@ -629,6 +649,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void qdCpsInfo(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetQdGps tcsWebsocketGetQdGps = new TcsWebsocketGetQdGps();
@@ -648,6 +669,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getChangedType(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetQdInfo tcsWebsocketGetQdInfo = new TcsWebsocketGetQdInfo();
@@ -670,6 +692,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getQdBaysCpsInfo(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetQdDw tcsWebsocketGetQdDw = new TcsWebsocketGetQdDw();
@@ -688,6 +711,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getLmdCpsInfo(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetlmdInfo tcsWebsocketGetlmdInfo = new TcsWebsocketGetlmdInfo();
@@ -706,6 +730,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getQcMoveStatus(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketGetQdMv tcsWebsocketGetQdMv = new TcsWebsocketGetQdMv();
@@ -724,6 +749,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getYardMove(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketTruckDriveAway tcsWebsocketTruckDriveAway = new TcsWebsocketTruckDriveAway();
@@ -742,6 +768,7 @@ public class LessonMsgServiceImpl implements LessonMsgService{
      * @param msg msg
      * @return Result
      */
+    @Async
     public void getUnLock(JSONObject msg) {
         // 保存至本地数据库
         TcsWebsocketLockDriveAway tcsWebsocketLockDriveAway = new TcsWebsocketLockDriveAway();

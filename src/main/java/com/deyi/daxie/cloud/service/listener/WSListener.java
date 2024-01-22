@@ -266,12 +266,9 @@ public class WSListener {
      * @return Result
      */
     public Result logout(JSONObject obj) {
-        log.info("++++++{}",obj);
         String truckNo = obj.getJSONObject("data").getString("username");
         WebSocketClient socketClient = WebSocketServer.TCS_CLIENT_MAP.get(truckNo);
-        log.info("=======}",socketClient);
         JSONObject response = tcsHttpApi.logout(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("******{}",response);
         // TCS应答失败
         if (!Objects.equals(response.getString("code"), Constant.TCS_SUCCESS)) {
             log.info("logout response code is not 200");
@@ -369,9 +366,7 @@ public class WSListener {
      * @return Result
      */
     public Result getInstructions(JSONObject obj) {
-
         JSONObject response = tcsHttpApi.getInstructions(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-
         return commonToVel(obj.getString("messageType"), response);
     }
 
@@ -418,10 +413,7 @@ public class WSListener {
      * @return Result
      */
     public Result tcsQcPosition(JSONObject obj) {
-        log.info("桥吊下集卡到位obj{}", obj.toString());
         JSONObject response = tcsHttpApi.tcsQcPosition(getToken(obj.getString("truckNo")), obj.getJSONObject("data"));
-        log.info("桥吊下集卡到位truckNo{},response{}",getToken(obj.getString("truckNo")), response.toString());
-
         return commonToVel(obj.getString("messageType"), response);
     }
 

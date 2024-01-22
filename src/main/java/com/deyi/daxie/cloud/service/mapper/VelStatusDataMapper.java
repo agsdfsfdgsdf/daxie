@@ -2,6 +2,7 @@ package com.deyi.daxie.cloud.service.mapper;
 
 import com.deyi.daxie.cloud.service.bean.VelStatusData;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 @Mapper
@@ -13,7 +14,7 @@ public interface VelStatusDataMapper {
      */
     int add(VelStatusData velStatus);
 
-    VelStatusData queryByDevice(String deviceNum);
+    VelStatusData queryByDevice(@Param("deviceNum") String deviceNum);
 
-    void updateLogOut(Long id);
+    void updateLogOut(@Param("id") Long id);
 }
